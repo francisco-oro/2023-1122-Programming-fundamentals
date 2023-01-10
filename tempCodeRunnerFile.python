@@ -1,0 +1,14 @@
+def fun(x):
+    return 1 if x % 2 == 0 else 0
+
+def stopobscener(x):
+    if x == 'fuck': return '****'
+    return x
+
+x = input("Tell me something about you")
+print(stopobscener(x))
+mystring = input("prompting for an string ")
+svector = mystring.split(" ")
+svector.replace('fuck', '****')
+for i in svector:
+    print(i, sep = " ")
