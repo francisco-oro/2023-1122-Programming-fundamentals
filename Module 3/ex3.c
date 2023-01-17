@@ -11,10 +11,11 @@ piso, inicializado en ceros. Los comandos se ingresan uno a la vez. Se debe cono
 posición actual de la tortuga en todo momento, y si la pluma está arriba o abajo.
 
 ## VARIABLES DE ENTRADA 
-file(archivo): Almacena el archivo para su lectura
-buff(entero): Almacena cada uno de los valores enteros leídos en el archivo
+newMovement (entero): Almacena el nuevo comando ingresado por el usuario
 ## VARIABLES DE SALIDA
-
+grid[MAXVALUE][MAXVALUE] (entero): Despliega en pantalla el tablero
+currentPosition[2] (entero): Coordenadas actuales de la tortga(en verde)
+file(archivo): Almacena el dibujo hecho por el usuario en grid.txt
 */
 #include <stdio.h>
 #define MAXSIZE 50
@@ -39,50 +40,54 @@ char displayCell(int cell/*, int active*/){
 void drawMovement(int grid[MAXSIZE][MAXSIZE], int currentPosition[2], int direction, int steps, int mode){
     // Mode 0: pen disabled. Mode 1: pen enabled. Mode 2: Current position
     int i, j;
-    switch(steps){
+    switch(direction){
         case 1: 
             // North
             for(i = 0; i < steps; i++){
-                if((currentPosition[0] - 1) <  0) break; 
-                currentPosition[0] -= 1;
+                if((currentPosition[0] - 1) <  -1) break; 
                 if(mode) grid[currentPosition[0]][currentPosition[1]] = 1; 
+                currentPosition[0] -= 1;
+                // printf("%d, %d\n", currentPosition[1], currentPosition[0]);
             }
             break;
         case 2:
             // East
             for(i = 0; i < steps; i++){
-                if((currentPosition[1] + 1) >  49) break; 
-                currentPosition[1] += 1;
+                if((currentPosition[1] + 1) >  50) break; 
                 if(mode) grid[currentPosition[0]][currentPosition[1]] = 1; 
+                currentPosition[1] += 1;
+                // printf("%d, %d\n", currentPosition[1], currentPosition[0]);
             }
             break;
         case 3:
             // South
             for(i = 0; i < steps; i++){
-                if((currentPosition[0] + 1) >  49) break; 
+                if((currentPosition[0] + 1) >  50) break; 
+                if(mode) grid[currentPosition[0]][currentPosition[1]] = 1;
                 currentPosition[0] += 1;
-                if(mode) grid[currentPosition[0]][currentPosition[1]] = 1; 
+                // printf("%d, %d\n", currentPosition[1], currentPosition[0]); 
             }
             break;
         case 4:
             // West
             for(i = 0; i < steps; i++){
-                if((currentPosition[1] - 1) <  0) break; 
-                currentPosition[1] -= 1;
+                if((currentPosition[1] - 1) <  -1) break; 
                 if(mode) grid[currentPosition[0]][currentPosition[1]] = 1; 
+                currentPosition[1] -= 1;
+                // printf("%d, %d\n", currentPosition[1], currentPosition[0]);
             }
             break;
     }
     // grid[currentPosition[0]][currentPosition[1]] = 2;
-    for(i = 0; i < 50; i++){
-        for(j = 0; j < 50; j++){
-            printf("%d", grid[i][j]); 
-        }
-        printf("\n");
-    }
-    for(i = 0; i < 2; i++){
-        printf("%d \t", currentPosition);
-    }
+    // for(i = 0; i < 50; i++){
+    //     for(j = 0; j < 50; j++){
+    //         printf("%d", grid[i][j]); 
+    //     }
+    //     printf("\n");
+    // }
+    // for(i = 0; i < 2; i++){
+    //     printf("%d \t", currentPosition);
+    // }
 
 }
 
@@ -143,14 +148,15 @@ int main(void) {
                 mode = 1;
                 break;
             case 3:
-                if(direction++ > 4) direction = 1;
+                if(++direction > 4) direction = 1;
                 break; 
             case 4:
-                if(direction-- < 1) direction = 1;
+                if(--direction < 1) direction = 4;
                 break;
             case 5:
                 printf("Steps: ");
                 scanf("%d", &steps);
+                 printf("direction: %d\n", direction);
                 drawMovement(grid, currentPosition, direction, steps, mode);
                 break; 
             case 6:
@@ -158,9 +164,10 @@ int main(void) {
                 break;
             case 9:
                 isOver = 1;
-                for(i=0; i<steps; i++){
-                    for(j=0; j<steps; j++){
-                        if(mode == 1) fprintf(file, "X  "); 
+                for(i=0; i<49; i++){
+                    for(j=0; j<49; j++){
+                        if(grid[i][j]) fprintf(file, "X  ");
+                        else fprintf(file, "   "); 
                     }
                 fprintf(file, "\n");
                 }

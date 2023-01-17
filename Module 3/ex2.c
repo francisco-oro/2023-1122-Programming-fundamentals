@@ -18,9 +18,10 @@ y moda y un histograma para la moda. (Programa 1)
 
 ## VARIABLES DE ENTRADA 
 file(archivo): Almacena el archivo para su lectura
-buff(entero): Almacena cada uno de los valores enteros leídos en el archivo
 ## VARIABLES DE SALIDA
-
+Moda (real): Valor de la moda
+Mediana (real): Valor de la mediana
+Media (real): Valor de la media
 */
 
 #include <stdio.h>
